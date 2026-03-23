@@ -1,0 +1,64 @@
+plugins {
+  id 'org.springframework.boot' version '4.0.3'
+  id 'io.spring.dependency-management' version '1.1.7'
+  id 'java'
+  id 'com.github.spotbugs' version '6.0.9'
+  id 'pmd'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // tag::actuator[]
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  // end::actuator[]
+  implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+  // tag::tests[]
+  testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+  // end::tests[]
+}
+
+test {
+  useJUnitPlatform()
+}
+
+// SpotBugs configuration
+spotbugs {
+  toolVersion = '4.8.6'
+  ignoreFailures = false
+  showStackTraces = true
+  showProgress = true
+  effort = 'max'
+  reportLevel = 'low'
+}
+
+// Configure SpotBugs tasks
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
+  reports {
+    xml {
+      required.set(true)
+    }
+    html {
+      required.set(true)
+    }
+  }
+}
+
+// PMD configuration
+pmd {
+  toolVersion = '7.7.0'
+  ignoreFailures = false
+  consoleOutput = true
+  ruleSetFiles = files("config/pmd/ruleset.xml")
+}
