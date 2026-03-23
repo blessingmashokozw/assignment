@@ -77,6 +77,16 @@ jobs:
         source: "build-artifacts/*.jar"
         target: "/var/apps/"
         
+    - name: Create environment file
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        script: |
+          echo "APP_ENVIRONMENT=production" > /var/apps/.env
+          echo "DEPLOYED_AT=$(date)" >> /var/apps/.env
+        
     - name: Deploy and restart application
       uses: appleboy/ssh-action@v1.0.3
       with:
