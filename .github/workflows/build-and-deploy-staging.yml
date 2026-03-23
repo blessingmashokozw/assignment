@@ -100,8 +100,8 @@ jobs:
           docker stop staging-container || true
           docker rm staging-container || true
           
-          # Build and run new container
-          docker build -t my-springboot-app:latest .
+          # Build and run new container with environment
+          docker build -t my-springboot-app:latest --build-arg APP_ENV=staging .
           docker run -d -p 8081:8080 --name staging-container --restart unless-stopped my-springboot-app:latest
           
           echo "Application deployed successfully via Docker"
