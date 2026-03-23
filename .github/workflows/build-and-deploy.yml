@@ -100,8 +100,8 @@ jobs:
           docker stop production-container || true
           docker rm production-container || true
           
-          # Build and run new container
-          docker build -t my-springboot-app:latest .
+          # Build and run new container with environment
+          docker build -t my-springboot-app:latest --build-arg APP_ENV=production /var/apps
           docker run -d -p 8080:8080 --name production-container --restart unless-stopped my-springboot-app:latest
           
           echo "Application deployed successfully via Docker"
