@@ -23,7 +23,7 @@ public class HelloController {
     return "Application is running v1!";
   }
 
-   @GetMapping("/version")
+   @GetMapping("/Mudare_version")
   public String version() {
     return "Application is running v1!";
   }
